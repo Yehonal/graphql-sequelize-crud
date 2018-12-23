@@ -31,7 +31,6 @@ var OperationFactory = /** @class */ (function () {
                     commentToDescription: true,
                     cache: cache
                 });
-                console.log(fields);
                 utils_1.convertFieldsToGlobalId(model, fields);
                 // FIXME: Handle timestamps
                 // console.log('_timestampAttributes', Model._timestampAttributes);

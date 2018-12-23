@@ -88,8 +88,6 @@ export class OperationFactory {
                     cache
                 }) as GraphQLInputFieldConfigMap;
 
-                console.log(fields);
-
                 convertFieldsToGlobalId(model, fields);
 
                 // FIXME: Handle timestamps
