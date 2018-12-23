@@ -11,8 +11,10 @@ import {
 } from 'graphql';
 import * as _ from 'lodash';
 
+import attributeFields from "./attributeFields.js";
+
 import {
-    attributeFields,
+    //attributeFields,
     resolver,
     relay,
     Cache,

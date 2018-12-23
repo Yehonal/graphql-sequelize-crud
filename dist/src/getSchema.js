@@ -12,6 +12,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var graphql_1 = require("graphql");
 var _ = require("lodash");
+var attributeFields_js_1 = require("./attributeFields.js");
 var graphql_sequelize_teselagen_1 = require("graphql-sequelize-teselagen");
 var sequelizeNodeInterface = graphql_sequelize_teselagen_1.relay.sequelizeNodeInterface, sequelizeConnection = graphql_sequelize_teselagen_1.relay.sequelizeConnection;
 var OperationFactory_1 = require("./OperationFactory");
@@ -31,7 +32,7 @@ function getSchema(sequelize) {
             name: utils_1.getTableName(model),
             fields: function () {
                 // Attribute fields
-                var defaultFields = graphql_sequelize_teselagen_1.attributeFields(model, {
+                var defaultFields = attributeFields_js_1.default(model, {
                     exclude: model.excludeFields ? model.excludeFields : [],
                     globalId: true,
                     commentToDescription: true,
@@ -150,7 +151,7 @@ function getSchema(sequelize) {
                 if (atype === "BelongsToMany") {
                     var aModel_1 = association.through.model;
                     // console.log('BelongsToMany model', aModel);
-                    edgeFields = graphql_sequelize_teselagen_1.attributeFields(aModel_1, {
+                    edgeFields = attributeFields_js_1.default(aModel_1, {
                         exclude: aModel_1.excludeFields ? aModel_1.excludeFields : [],
                         globalId: true,
                         commentToDescription: true,
