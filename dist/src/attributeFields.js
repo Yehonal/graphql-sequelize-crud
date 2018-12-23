@@ -46,13 +46,14 @@ function default_1(Model, options) {
             }
         }
         if (!options.allowNull) {
-            if (attribute.allowNull === false || attribute.primaryKey === true) {
+            if (!attribute.defaultValue && (attribute.allowNull === false || attribute.primaryKey === true)) {
                 memo[key].type = new graphql_1.GraphQLNonNull(memo[key].type);
             }
         }
+        /* should be handled by database instead
         if (attribute.defaultValue) {
             memo[key].defaultValue = attribute.defaultValue;
-        }
+        }*/
         if (options.commentToDescription) {
             if (typeof attribute.comment === 'string') {
                 memo[key].description = attribute.comment;
