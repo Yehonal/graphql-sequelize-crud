@@ -63,7 +63,6 @@ export function getSchema(sequelize: Sequelize) {
                 const defaultFields = attributeFields(model, {
                     exclude: model.excludeFields ? model.excludeFields : [],
                     globalId: true,
-                    allowNull: true,
                     commentToDescription: true,
                     cache
                 }) as GraphQLFieldConfigMap<any, any>;
@@ -191,7 +190,6 @@ export function getSchema(sequelize: Sequelize) {
                     edgeFields = attributeFields(aModel, {
                         exclude: aModel.excludeFields ? aModel.excludeFields : [],
                         globalId: true,
-                        allowNull: true,
                         commentToDescription: true,
                         cache
                     }) as GraphQLFieldConfigMap<any, any>;

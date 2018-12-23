@@ -34,7 +34,6 @@ function getSchema(sequelize) {
                 var defaultFields = graphql_sequelize_teselagen_1.attributeFields(model, {
                     exclude: model.excludeFields ? model.excludeFields : [],
                     globalId: true,
-                    allowNull: true,
                     commentToDescription: true,
                     cache: cache
                 });
@@ -154,7 +153,6 @@ function getSchema(sequelize) {
                     edgeFields = graphql_sequelize_teselagen_1.attributeFields(aModel_1, {
                         exclude: aModel_1.excludeFields ? aModel_1.excludeFields : [],
                         globalId: true,
-                        allowNull: true,
                         commentToDescription: true,
                         cache: cache
                     });

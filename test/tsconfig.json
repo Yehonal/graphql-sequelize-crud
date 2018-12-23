@@ -1,12 +1,13 @@
 {
     "compilerOptions": {
+        "allowJs": true,
         "module": "commonjs",
         "noImplicitAny": true,
         "removeComments": false,
         "preserveConstEnums": true,
         "sourceMap": true,
         "target": "es5",
-        "declaration": true,
+        //"declaration": true,
         "moduleResolution": "node",
         "outDir": "dist",
         "types": [

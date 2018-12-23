@@ -7,6 +7,7 @@ var _ = require("lodash");
 var camelcase = require("camelcase");
 var graphql_relay_1 = require("graphql-relay");
 var graphql_sequelize_teselagen_1 = require("graphql-sequelize-teselagen");
+var attributeFields_js_1 = require("./attributeFields.js");
 var utils_1 = require("./utils");
 var OperationFactory = /** @class */ (function () {
     function OperationFactory(config) {
@@ -25,12 +26,12 @@ var OperationFactory = /** @class */ (function () {
             description: "Create " + utils_1.getTableName(model) + " record.",
             inputFields: function () {
                 var exclude = model.excludeFields ? model.excludeFields : [];
-                var fields = graphql_sequelize_teselagen_1.attributeFields(model, {
+                var fields = attributeFields_js_1.default(model, {
                     exclude: exclude,
-                    allowNull: true,
                     commentToDescription: true,
                     cache: cache
                 });
+                console.log(fields);
                 utils_1.convertFieldsToGlobalId(model, fields);
                 // FIXME: Handle timestamps
                 // console.log('_timestampAttributes', Model._timestampAttributes);
@@ -144,10 +145,9 @@ var OperationFactory = /** @class */ (function () {
             name: updateMutationName,
             description: "Update multiple " + utils_1.getTableName(model) + " records.",
             inputFields: function () {
-                var fields = graphql_sequelize_teselagen_1.attributeFields(model, {
+                var fields = attributeFields_js_1.default(model, {
                     exclude: model.excludeFields ? model.excludeFields : [],
                     commentToDescription: true,
-                    allowNull: true,
                     cache: cache
                 });
                 utils_1.convertFieldsToGlobalId(model, fields);
@@ -267,10 +267,9 @@ var OperationFactory = /** @class */ (function () {
             name: updateMutationName,
             description: "Update a single " + utils_1.getTableName(model) + " record.",
             inputFields: function () {
-                var fields = graphql_sequelize_teselagen_1.attributeFields(model, {
+                var fields = attributeFields_js_1.default(model, {
                     exclude: model.excludeFields ? model.excludeFields : [],
                     commentToDescription: true,
-                    allowNull: true,
                     cache: cache
                 });
                 utils_1.convertFieldsToGlobalId(model, fields);
@@ -369,10 +368,9 @@ var OperationFactory = /** @class */ (function () {
             name: deleteMutationName,
             description: "Delete " + utils_1.getTableName(model) + " records.",
             inputFields: function () {
-                var fields = graphql_sequelize_teselagen_1.attributeFields(model, {
+                var fields = attributeFields_js_1.default(model, {
                     exclude: model.excludeFields ? model.excludeFields : [],
                     commentToDescription: true,
-                    allowNull: true,
                     cache: cache
                 });
                 utils_1.convertFieldsToGlobalId(model, fields);

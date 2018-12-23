@@ -19,11 +19,14 @@ import {
 import {
     defaultArgs,
     defaultListArgs,
-    attributeFields,
+    //attributeFields,
     resolver,
     SequelizeConnection,
     Cache,
 } from "graphql-sequelize-teselagen";
+
+import attributeFields from "./attributeFields.js";
+
 import {
     convertFieldsFromGlobalId,
     mutationName,
@@ -81,10 +84,11 @@ export class OperationFactory {
                 const exclude = model.excludeFields ? model.excludeFields : [];
                 const fields = attributeFields(model, {
                     exclude,
-                    allowNull: true,
                     commentToDescription: true,
                     cache
                 }) as GraphQLInputFieldConfigMap;
+
+                console.log(fields);
 
                 convertFieldsToGlobalId(model, fields);
 
@@ -251,7 +255,6 @@ export class OperationFactory {
                 const fields = attributeFields(model, {
                     exclude: model.excludeFields ? model.excludeFields : [],
                     commentToDescription: true,
-                    allowNull: true,
                     cache
                 }) as GraphQLInputFieldConfigMap;
 
@@ -408,7 +411,6 @@ export class OperationFactory {
                 const fields = attributeFields(model, {
                     exclude: model.excludeFields ? model.excludeFields : [],
                     commentToDescription: true,
-                    allowNull: true,
                     cache
                 }) as GraphQLInputFieldConfigMap;
 
@@ -539,7 +541,6 @@ export class OperationFactory {
                 const fields = attributeFields(model, {
                     exclude: model.excludeFields ? model.excludeFields : [],
                     commentToDescription: true,
-                    allowNull: true,
                     cache
                 }) as GraphQLInputFieldConfigMap;
                 convertFieldsToGlobalId(model, fields);

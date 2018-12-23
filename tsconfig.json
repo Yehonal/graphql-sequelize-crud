@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "allowJs": true,
         "module": "commonjs",
         "noImplicitAny": true,
         "noUnusedLocals": true,
@@ -8,7 +9,7 @@
         "strictNullChecks": true,
         "sourceMap": true,
         "target": "es5",
-        "declaration": true,
+        //"declaration": true,
         "moduleResolution": "node",
         "outDir": "dist",
         "lib": [
