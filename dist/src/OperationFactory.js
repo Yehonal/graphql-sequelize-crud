@@ -29,7 +29,8 @@ var OperationFactory = /** @class */ (function () {
                 var fields = attributeFields_js_1.default(model, {
                     exclude: exclude,
                     commentToDescription: true,
-                    cache: cache
+                    cache: cache,
+                    checkDefaults: true,
                 });
                 utils_1.convertFieldsToGlobalId(model, fields);
                 // FIXME: Handle timestamps
@@ -147,7 +148,8 @@ var OperationFactory = /** @class */ (function () {
                 var fields = attributeFields_js_1.default(model, {
                     exclude: model.excludeFields ? model.excludeFields : [],
                     commentToDescription: true,
-                    cache: cache
+                    cache: cache,
+                    checkDefaults: true
                 });
                 utils_1.convertFieldsToGlobalId(model, fields);
                 var updateModelTypeName = "Update" + utils_1.getTableName(model) + "ValuesInput";
@@ -269,7 +271,8 @@ var OperationFactory = /** @class */ (function () {
                 var fields = attributeFields_js_1.default(model, {
                     exclude: model.excludeFields ? model.excludeFields : [],
                     commentToDescription: true,
-                    cache: cache
+                    cache: cache,
+                    checkDefaults: true
                 });
                 utils_1.convertFieldsToGlobalId(model, fields);
                 var updateModelInputTypeName = "Update" + utils_1.getTableName(model) + "ValuesInput";
@@ -370,7 +373,8 @@ var OperationFactory = /** @class */ (function () {
                 var fields = attributeFields_js_1.default(model, {
                     exclude: model.excludeFields ? model.excludeFields : [],
                     commentToDescription: true,
-                    cache: cache
+                    cache: cache,
+                    checkDefaults: true
                 });
                 utils_1.convertFieldsToGlobalId(model, fields);
                 var deleteModelWhereType = new graphql_1.GraphQLInputObjectType({

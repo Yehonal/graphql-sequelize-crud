@@ -85,7 +85,8 @@ export class OperationFactory {
                 const fields = attributeFields(model, {
                     exclude,
                     commentToDescription: true,
-                    cache
+                    cache,
+                    checkDefaults: true,
                 }) as GraphQLInputFieldConfigMap;
 
                 convertFieldsToGlobalId(model, fields);
@@ -253,7 +254,8 @@ export class OperationFactory {
                 const fields = attributeFields(model, {
                     exclude: model.excludeFields ? model.excludeFields : [],
                     commentToDescription: true,
-                    cache
+                    cache,
+                    checkDefaults: true
                 }) as GraphQLInputFieldConfigMap;
 
                 convertFieldsToGlobalId(model, fields);
@@ -409,7 +411,8 @@ export class OperationFactory {
                 const fields = attributeFields(model, {
                     exclude: model.excludeFields ? model.excludeFields : [],
                     commentToDescription: true,
-                    cache
+                    cache,
+                    checkDefaults: true
                 }) as GraphQLInputFieldConfigMap;
 
                 convertFieldsToGlobalId(model, fields);
@@ -539,7 +542,8 @@ export class OperationFactory {
                 const fields = attributeFields(model, {
                     exclude: model.excludeFields ? model.excludeFields : [],
                     commentToDescription: true,
-                    cache
+                    cache,
+                    checkDefaults: true
                 }) as GraphQLInputFieldConfigMap;
                 convertFieldsToGlobalId(model, fields);
                 const deleteModelWhereType = new GraphQLInputObjectType({
