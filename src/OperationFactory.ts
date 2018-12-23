@@ -81,6 +81,7 @@ export class OperationFactory {
                 const exclude = model.excludeFields ? model.excludeFields : [];
                 const fields = attributeFields(model, {
                     exclude,
+                    allowNull: true,
                     commentToDescription: true,
                     cache
                 }) as GraphQLInputFieldConfigMap;
