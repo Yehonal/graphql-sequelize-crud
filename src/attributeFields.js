@@ -1,4 +1,4 @@
-import * as typeMapper from '../node_modules/graphql-sequelize-teselagen/lib/typeMapper';
+import * as typeMapper from 'graphql-sequelize-teselagen/lib/typeMapper';
 import { GraphQLNonNull, GraphQLEnumType } from 'graphql';
 import { globalIdField } from 'graphql-relay';
 

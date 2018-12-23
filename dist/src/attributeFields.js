@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var typeMapper = require("../node_modules/graphql-sequelize-teselagen/lib/typeMapper");
+var typeMapper = require("graphql-sequelize-teselagen/lib/typeMapper");
 var graphql_1 = require("graphql");
 var graphql_relay_1 = require("graphql-relay");
 function default_1(Model, options) {
