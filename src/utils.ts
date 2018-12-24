@@ -59,11 +59,13 @@ export function convertFieldsFromGlobalId(model: Model, data: { [key: string]: a
         if (attr.references || attr.primaryKey) {
             const { id } = fromGlobalId(data[key]);
 
-            // Check if id is numeric.
-            if (!_.isNaN(_.toNumber(id))) {
-                data[key] = parseInt(id);
-            } else {
-                data[key] = id;
+            if (id !== "") {
+                // Check if id is numeric.
+                if (!_.isNaN(_.toNumber(id))) {
+                    data[key] = parseInt(id);
+                } else {
+                    data[key] = id;
+                }
             }
         }
     });

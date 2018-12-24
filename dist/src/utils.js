@@ -44,12 +44,14 @@ function convertFieldsFromGlobalId(model, data) {
         }
         if (attr.references || attr.primaryKey) {
             var id = graphql_relay_1.fromGlobalId(data[key]).id;
-            // Check if id is numeric.
-            if (!_.isNaN(_.toNumber(id))) {
-                data[key] = parseInt(id);
-            }
-            else {
-                data[key] = id;
+            if (id !== "") {
+                // Check if id is numeric.
+                if (!_.isNaN(_.toNumber(id))) {
+                    data[key] = parseInt(id);
+                }
+                else {
+                    data[key] = id;
+                }
             }
         }
     });
