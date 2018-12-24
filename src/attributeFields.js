@@ -46,7 +46,8 @@ export default function (Model, options = {}) {
     }
 
     if (!options.allowNull) {
-      if ((!options.checkDefaults || typeof attribute.defaultValue == "undefined") && (attribute.allowNull === false || attribute.primaryKey === true)) {
+      if ((!options.checkDefaults || typeof attribute.defaultValue === 'undefined') 
+          && (attribute.allowNull === false || attribute.primaryKey === true)) {
         memo[key].type = new GraphQLNonNull(memo[key].type);
       }
     }
