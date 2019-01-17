@@ -17,7 +17,7 @@ var graphql_sequelize_teselagen_1 = require("graphql-sequelize-teselagen");
 var sequelizeNodeInterface = graphql_sequelize_teselagen_1.relay.sequelizeNodeInterface, sequelizeConnection = graphql_sequelize_teselagen_1.relay.sequelizeConnection;
 var OperationFactory_1 = require("./OperationFactory");
 var utils_1 = require("./utils");
-function getSchema(sequelize) {
+function getSchema(sequelize, options) {
     var _a = sequelizeNodeInterface(sequelize), nodeInterface = _a.nodeInterface, nodeField = _a.nodeField, nodeTypeMapper = _a.nodeTypeMapper;
     var models = sequelize.models;
     var queries = {};
@@ -25,6 +25,7 @@ function getSchema(sequelize) {
     var associationsToModel = {};
     var associationsFromModel = {};
     var cache = {};
+    graphql_sequelize_teselagen_1.typeMapper.mapType(options.typeMap);
     // Create types map
     var modelTypes = Object.keys(models).reduce(function (types, key) {
         var model = models[key];
@@ -34,6 +35,7 @@ function getSchema(sequelize) {
                 // Attribute fields
                 var defaultFields = attributeFields_js_1.default(model, {
                     exclude: model.excludeFields ? model.excludeFields : [],
+                    only: model.onlyFields ? model.onlyFields : null,
                     globalId: true,
                     commentToDescription: true,
                     cache: cache
@@ -153,6 +155,7 @@ function getSchema(sequelize) {
                     // console.log('BelongsToMany model', aModel);
                     edgeFields = attributeFields_js_1.default(aModel_1, {
                         exclude: aModel_1.excludeFields ? aModel_1.excludeFields : [],
+                        only: model.onlyFields ? model.onlyFields : null,
                         globalId: true,
                         commentToDescription: true,
                         cache: cache
@@ -224,11 +227,11 @@ function getSchema(sequelize) {
         var model = models[key];
         // Custom Queries
         if (model.queries) {
-            _.assign(queries, model.queries(models, modelTypes, graphql_sequelize_teselagen_1.resolver));
+            _.assign(queries, model.queries(models, modelTypes, graphql_sequelize_teselagen_1.resolver, queries));
         }
         // Custom Mutations
         if (model.mutations) {
-            _.assign(mutations, model.mutations(models, modelTypes, graphql_sequelize_teselagen_1.resolver));
+            _.assign(mutations, model.mutations(models, modelTypes, graphql_sequelize_teselagen_1.resolver, mutations));
         }
     });
     // Configure NodeTypeMapper

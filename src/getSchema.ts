@@ -18,7 +18,9 @@ import {
     resolver,
     relay,
     Cache,
+    typeMapper
 } from "graphql-sequelize-teselagen";
+
 const {
     sequelizeNodeInterface,
     sequelizeConnection
@@ -44,7 +46,7 @@ import {
     connectionNameForAssociation,
 } from "./utils";
 
-export function getSchema(sequelize: Sequelize) {
+export function getSchema(sequelize: Sequelize, options?: any) {
 
     const { nodeInterface, nodeField, nodeTypeMapper } = sequelizeNodeInterface(sequelize);
 
@@ -55,6 +57,8 @@ export function getSchema(sequelize: Sequelize) {
     const associationsFromModel: AssociationFromModels = {};
     const cache: Cache = {};
 
+    typeMapper.mapType(options.typeMap);
+
     // Create types map
     const modelTypes: ModelTypes = Object.keys(models).reduce((types: ModelTypes, key: string) => {
         const model: Model = models[key];
@@ -64,6 +68,7 @@ export function getSchema(sequelize: Sequelize) {
                 // Attribute fields
                 const defaultFields = attributeFields(model, {
                     exclude: model.excludeFields ? model.excludeFields : [],
+                    only: model.onlyFields ? model.onlyFields : null,
                     globalId: true,
                     commentToDescription: true,
                     cache
@@ -191,6 +196,7 @@ export function getSchema(sequelize: Sequelize) {
                     // console.log('BelongsToMany model', aModel);
                     edgeFields = attributeFields(aModel, {
                         exclude: aModel.excludeFields ? aModel.excludeFields : [],
+                        only: model.onlyFields ? model.onlyFields : null,
                         globalId: true,
                         commentToDescription: true,
                         cache
@@ -267,11 +273,11 @@ export function getSchema(sequelize: Sequelize) {
 
         // Custom Queries
         if (model.queries) {
-            _.assign(queries, model.queries(models, modelTypes, resolver));
+            _.assign(queries, model.queries(models, modelTypes, resolver, queries));
         }
         // Custom Mutations
         if (model.mutations) {
-            _.assign(mutations, model.mutations(models, modelTypes, resolver));
+            _.assign(mutations, model.mutations(models, modelTypes, resolver, mutations));
         }
 
     });

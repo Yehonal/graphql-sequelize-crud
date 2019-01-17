@@ -26,8 +26,10 @@ var OperationFactory = /** @class */ (function () {
             description: "Create " + utils_1.getTableName(model) + " record.",
             inputFields: function () {
                 var exclude = model.excludeFields ? model.excludeFields : [];
+                var only = model.onlyFields ? model.onlyFields : null;
                 var fields = attributeFields_js_1.default(model, {
                     exclude: exclude,
+                    only: only,
                     commentToDescription: true,
                     cache: cache,
                     checkDefaults: true,
@@ -147,6 +149,7 @@ var OperationFactory = /** @class */ (function () {
             inputFields: function () {
                 var fields = attributeFields_js_1.default(model, {
                     exclude: model.excludeFields ? model.excludeFields : [],
+                    only: model.onlyFields ? model.onlyFields : null,
                     commentToDescription: true,
                     cache: cache,
                     checkDefaults: true
@@ -270,6 +273,7 @@ var OperationFactory = /** @class */ (function () {
             inputFields: function () {
                 var fields = attributeFields_js_1.default(model, {
                     exclude: model.excludeFields ? model.excludeFields : [],
+                    only: model.onlyFields ? model.onlyFields : null,
                     commentToDescription: true,
                     cache: cache,
                     checkDefaults: true
@@ -372,6 +376,7 @@ var OperationFactory = /** @class */ (function () {
             inputFields: function () {
                 var fields = attributeFields_js_1.default(model, {
                     exclude: model.excludeFields ? model.excludeFields : [],
+                    only: model.onlyFields ? model.onlyFields : null,
                     commentToDescription: true,
                     cache: cache,
                     checkDefaults: true

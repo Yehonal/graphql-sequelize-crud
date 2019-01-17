@@ -82,8 +82,10 @@ export class OperationFactory {
             description: `Create ${getTableName(model)} record.`,
             inputFields: () => {
                 const exclude = model.excludeFields ? model.excludeFields : [];
+                const only = model.onlyFields ? model.onlyFields : null;
                 const fields = attributeFields(model, {
                     exclude,
+                    only,
                     commentToDescription: true,
                     cache,
                     checkDefaults: true,
@@ -253,6 +255,7 @@ export class OperationFactory {
             inputFields: () => {
                 const fields = attributeFields(model, {
                     exclude: model.excludeFields ? model.excludeFields : [],
+                    only: model.onlyFields ? model.onlyFields : null,
                     commentToDescription: true,
                     cache,
                     checkDefaults: true
@@ -410,6 +413,7 @@ export class OperationFactory {
             inputFields: () => {
                 const fields = attributeFields(model, {
                     exclude: model.excludeFields ? model.excludeFields : [],
+                    only: model.onlyFields ? model.onlyFields : null,
                     commentToDescription: true,
                     cache,
                     checkDefaults: true
@@ -541,6 +545,7 @@ export class OperationFactory {
             inputFields: () => {
                 const fields = attributeFields(model, {
                     exclude: model.excludeFields ? model.excludeFields : [],
+                    only: model.onlyFields ? model.onlyFields : null,
                     commentToDescription: true,
                     cache,
                     checkDefaults: true

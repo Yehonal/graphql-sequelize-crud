@@ -17,9 +17,10 @@ declare module "graphql-sequelize-teselagen" {
             [associationKey: string]: Association;
         };
         excludeFields?: string[];
+        onlyFields?: string[];
         primaryKeyAttribute: string;
-        queries?(models: ModelsHashInterface, modelTypes: ModelTypes, resolver: any): any;
-        mutations?(models: ModelsHashInterface, modelTypes: ModelTypes, resolver: any): any;
+        queries?(models: ModelsHashInterface, modelTypes: ModelTypes, resolver: any, queries: any): any;
+        mutations?(models: ModelsHashInterface, modelTypes: ModelTypes, resolver: any, mutations: any): any;
     }
 
     export interface Association {
@@ -76,6 +77,7 @@ declare module "graphql-sequelize-teselagen" {
         [modelName: string]: GraphQLObjectType | GraphQLInputObjectType;
     }
 
+    export const typeMapper: any;
     export function attributeFields(model: Model, options?: AttributeFieldsOptions): AttributeFields;
 
     export type AttributeFields = GraphQLFieldConfigMap<any, any> | GraphQLInputFieldConfigMap;

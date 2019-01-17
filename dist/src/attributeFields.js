@@ -28,32 +28,40 @@ function default_1(Model, options) {
                 key = options.map[key] || key;
             }
         }
-        memo[key] = {
-            type: typeMapper.toGraphQL(type, Model.sequelize.constructor)
-        };
-        if (memo[key].type instanceof graphql_1.GraphQLEnumType) {
-            var typeName = "" + Model.name + key + "EnumType";
-            /*
-            Cache enum types to prevent duplicate type name error
-            when calling attributeFields multiple times on the same model
-            */
-            if (cache[typeName]) {
-                memo[key].type = cache[typeName];
+        if (!attribute.graphType) {
+            memo[key] = {
+                type: typeMapper.toGraphQL(type, Model.sequelize.constructor)
+            };
+            if (memo[key].type instanceof graphql_1.GraphQLEnumType) {
+                var typeName = "" + Model.name + key + "EnumType";
+                /*
+                Cache enum types to prevent duplicate type name error
+                when calling attributeFields multiple times on the same model
+                */
+                if (cache[typeName]) {
+                    memo[key].type = cache[typeName];
+                }
+                else {
+                    memo[key].type.name = typeName;
+                    cache[typeName] = memo[key].type;
+                }
             }
-            else {
-                memo[key].type.name = typeName;
-                cache[typeName] = memo[key].type;
+            if (!options.allowNull) {
+                if ((!options.checkDefaults || typeof attribute.defaultValue === 'undefined') &&
+                    (attribute.allowNull === false || attribute.primaryKey === true)) {
+                    memo[key].type = new graphql_1.GraphQLNonNull(memo[key].type);
+                }
             }
+            /* should be handled by database instead
+            if (attribute.defaultValue) {
+                memo[key].defaultValue = attribute.defaultValue;
+            }*/
         }
-        if (!options.allowNull) {
-            if ((!options.checkDefaults || typeof attribute.defaultValue == "undefined") && (attribute.allowNull === false || attribute.primaryKey === true)) {
-                memo[key].type = new graphql_1.GraphQLNonNull(memo[key].type);
-            }
+        else {
+            memo[key] = {
+                type: attribute.graphType
+            };
         }
-        /* should be handled by database instead
-        if (attribute.defaultValue) {
-            memo[key].defaultValue = attribute.defaultValue;
-        }*/
         if (options.commentToDescription) {
             if (typeof attribute.comment === 'string') {
                 memo[key].description = attribute.comment;
