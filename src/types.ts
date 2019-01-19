@@ -11,6 +11,10 @@ class CustomGQLType {
         this.graphType = type;
         this.graphInput = input ? input : type;
     }
+
+    getType(isType: boolean) {
+        return isType ? this.graphType : this.graphInput
+    }
 }
 
 export { CustomGQLType }

@@ -26,19 +26,22 @@ function _interopRequireWildcard(obj) {
     }
 }
 function default_1(Model, isType) {
-    var result = {}, key = Model.primaryKeyAttribute, attribute = Model.rawAttributes[key], type;
-    if (key && attribute) {
-        if (!attribute.graphType && !attribute.graphInput) {
-            var type_1 = typeMapper.toGraphQL(attribute.type, Model.sequelize.constructor, isType);
-            result[key] = {
-                type: type_1
-            };
-        }
-        else {
-            result[key] = {
-                type: isType ? attribute.graphType : attribute.graphInput
-            };
-        }
+    var result = {}, keys = Model.primaryKeyAttributes, type;
+    if (keys) {
+        keys.forEach(function (key) {
+            var attribute = Model.rawAttributes[key];
+            if (attribute) {
+                if (attribute.graphType) {
+                    type = attribute.graphType instanceof CustomGQLType ? attribute.graphType.getType(isType) : attribute.graphType;
+                }
+                else {
+                    type = typeMapper.toGraphQL(attribute.type, Model.sequelize.constructor, isType);
+                }
+                result[key] = {
+                    type: type
+                };
+            }
+        });
     }
     // add where
     result.where = {

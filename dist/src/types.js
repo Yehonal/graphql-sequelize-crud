@@ -7,6 +7,9 @@ var CustomGQLType = /** @class */ (function () {
         this.graphType = type;
         this.graphInput = input ? input : type;
     }
+    CustomGQLType.prototype.getType = function (isType) {
+        return isType ? this.graphType : this.graphInput;
+    };
     return CustomGQLType;
 }());
 exports.CustomGQLType = CustomGQLType;

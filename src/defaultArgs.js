@@ -32,22 +32,24 @@ function _interopRequireWildcard(obj) {
 
 export default function (Model, isType) {
   var result = {},
-    key = Model.primaryKeyAttribute,
-    attribute = Model.rawAttributes[key],
+    keys = Model.primaryKeyAttributes,
     type;
 
-  if (key && attribute) {
-    if (!attribute.graphType && !attribute.graphInput) {
-      const type = typeMapper.toGraphQL(attribute.type, Model.sequelize.constructor, isType);
+  if (keys) {
+    keys.forEach(key => {
+      var attribute = Model.rawAttributes[key];
+      if (attribute) {
+        if (attribute.graphType) {
+          type = attribute.graphType instanceof CustomGQLType ? attribute.graphType.getType(isType) : attribute.graphType;
+        } else {
+          type = typeMapper.toGraphQL(attribute.type, Model.sequelize.constructor, isType)
+        }
 
-      result[key] = {
-        type: type
-      };
-    } else {
-      result[key] = {
-        type: isType ? attribute.graphType : attribute.graphInput
-      };
-    }
+        result[key] = {
+          type: type
+        };
+      }
+    });
   }
 
   // add where

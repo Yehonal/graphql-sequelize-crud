@@ -1,15 +1,14 @@
 'use strict';
-Object.defineProperty(exports, "__esModule", { value: true });
-var graphql_1 = require("graphql");
-var Sequelize = require("sequelize");
-var express = require("express");
-var graphqlHTTP = require("express-graphql");
-// tslint:disable-next-line:no-require-imports no-var-requires
-var playground = require('graphql-playground/middleware').express;
-var src_1 = require("../src");
+var _a = require('graphql'), GraphQLString = _a.GraphQLString, GraphQLNonNull = _a.GraphQLNonNull, GraphQLObjectType = _a.GraphQLObjectType;
+var CustomGQLType = require("../src/types").CustomGQLType;
+//import { ModelsHashInterface as Models } from "sequelize";
+var Sequelize = require('sequelize');
+var express = require('express');
+var graphqlHTTP = require('express-graphql');
+var express = require('graphql-playground/middleware').express;
+var getSchema = require('../src').getSchema;
 var app = express();
 var sequelize = new Sequelize('database', 'username', 'password', {
-    // sqlite! now!
     dialect: 'sqlite',
 });
 // tslint:disable-next-line:variable-name
@@ -22,57 +21,66 @@ var User = sequelize.define('User', {
     password: {
         type: Sequelize.STRING,
         allowNull: false
+    },
+    avatar: {
+        type: Sequelize.BLOB,
+        // you can define a custom type for graph in sequelize model when a type is not recognized by graphql-sequelize-crud
+        graphType: new CustomGQLType(GraphQLString, GraphQLObjectType)
     }
 }, {
     timestamps: true,
-    classMethods: {
-        queries: function (models, types) {
-            return {
-                viewer: {
-                    type: types.User,
-                    description: "Get a User by username",
-                    args: {},
-                    resolve: function (source, args, context) {
-                        return Promise.resolve(null);
-                    },
-                },
-            };
-        },
-        mutations: function (models, modelTypes) {
-            return {
-                createCustom: {
-                    type: new graphql_1.GraphQLObjectType({
-                        name: "Custom",
-                        description: "Custom type for custom mutation",
-                        fields: function () { return ({
-                            customValueA: {
-                                type: graphql_1.GraphQLString,
-                            },
-                            customValueB: {
-                                type: graphql_1.GraphQLString,
-                            },
-                        }); }
-                    }),
-                    args: {
-                        dataA: {
-                            type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString)
-                        },
-                        dataB: {
-                            type: new graphql_1.GraphQLNonNull(graphql_1.GraphQLString)
-                        }
-                    },
-                    resolve: function (obj, _a) {
-                        var dataA = _a.dataA, dataB = _a.dataB;
-                        return Promise.resolve({
-                            customValueA: dataA,
-                            customValueB: dataB,
-                        });
-                    }
-                }
-            };
-        }
-    }
 });
+User.excludeFields = ["password"];
+// User.onlyFields = ["email"]; inclusive filter as an alternative to excludeFields
+/**
+ * @param {Models} models
+ * @param {ModelTypes} types
+ */
+User.queries = function (models, types, resolver, queries) {
+    return {
+        viewer: {
+            type: types.User,
+            description: "Get a User by username",
+            args: {},
+            resolve: function (source, args, context) {
+                return Promise.resolve(null);
+            },
+        },
+    };
+};
+User.mutations = function (models, modelTypes, resolver, mutations) {
+    return {
+        createCustom: {
+            type: new GraphQLObjectType({
+                name: "Custom",
+                description: "Custom type for custom mutation",
+                fields: function () { return ({
+                    customValueA: {
+                        type: GraphQLString,
+                    },
+                    customValueB: {
+                        type: GraphQLString,
+                    },
+                }); }
+            }),
+            args: {
+                dataA: {
+                    type: new GraphQLNonNull(GraphQLString)
+                },
+                dataB: {
+                    type: new GraphQLNonNull(GraphQLString)
+                }
+            },
+            resolve: function (obj, _a) {
+                var dataA = _a.dataA, dataB = _a.dataB;
+                return Promise.resolve({
+                    customValueA: dataA,
+                    customValueB: dataB,
+                });
+            }
+        }
+    };
+};
 // tslint:disable-next-line:variable-name
 var Todo = sequelize.define('Todo', {
     id: {
@@ -121,12 +129,14 @@ sequelize.sync({
     force: true
 })
     .then(function () {
-    var schema = src_1.getSchema(sequelize);
+    var schema = getSchema(sequelize);
     app.use('/graphql', graphqlHTTP({
         schema: schema,
         graphiql: true
     }));
-    app.use('/playground', playground({ endpoint: '/graphql' }));
+    app.use('/playground', playground({
+        endpoint: '/graphql'
+    }));
     var port = 3000;
     app.listen(port, function () {
         // tslint:disable-next-line:no-console

@@ -34,44 +34,43 @@ export default function (Model, options = {}, isType) {
       }
     }
 
-    if (!attribute.graphType && !attribute.graphInput) {
-      const _type = typeMapper.toGraphQL(type, Model.sequelize.constructor, isType)
-
-      memo[key] = {
-        type: _type
-      };
-
-      if (memo[key].type instanceof GraphQLEnumType) {
-        var typeName = `${Model.name}${key}EnumType`;
-        /*
-        Cache enum types to prevent duplicate type name error
-        when calling attributeFields multiple times on the same model
-        */
-        if (cache[typeName]) {
-          memo[key].type = cache[typeName];
-        } else {
-          memo[key].type.name = typeName;
-          cache[typeName] = memo[key].type;
-        }
-
-      }
-
-      if (!options.allowNull) {
-        if ((!options.checkDefaults || typeof attribute.defaultValue === 'undefined') &&
-          (attribute.allowNull === false || attribute.primaryKey === true)) {
-          memo[key].type = new GraphQLNonNull(memo[key].type);
-        }
-      }
-
-      /* should be handled by database instead
-      if (attribute.defaultValue) {
-          memo[key].defaultValue = attribute.defaultValue;
-      }*/
+    const _type;
+    if (attribute.graphType) {
+      _type = attribute.graphType instanceof CustomGQLType ? attribute.graphType.getType(isType) : attribute.graphType;
     } else {
-      memo[key] = {
-        type: isType ? attribute.graphType : attribute.graphInput
+      _type = typeMapper.toGraphQL(attribute.type, Model.sequelize.constructor, isType)
+    }
+
+    memo[key] = {
+      type: _type
+    };
+
+    if (memo[key].type instanceof GraphQLEnumType) {
+      var typeName = `${Model.name}${key}EnumType`;
+      /*
+      Cache enum types to prevent duplicate type name error
+      when calling attributeFields multiple times on the same model
+      */
+      if (cache[typeName]) {
+        memo[key].type = cache[typeName];
+      } else {
+        memo[key].type.name = typeName;
+        cache[typeName] = memo[key].type;
+      }
+
+    }
+
+    if (!options.allowNull) {
+      if ((!options.checkDefaults || typeof attribute.defaultValue === 'undefined') &&
+        (attribute.allowNull === false || attribute.primaryKey === true)) {
+        memo[key].type = new GraphQLNonNull(memo[key].type);
       }
     }
+
+    /* should be handled by database instead
+    if (attribute.defaultValue) {
+        memo[key].defaultValue = attribute.defaultValue;
+    }*/
 
     if (options.commentToDescription) {
       if (typeof attribute.comment === 'string') {

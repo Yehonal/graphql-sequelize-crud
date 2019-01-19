@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var typeMapper = require("./typeMapper");
+var types_1 = require("./types");
 var graphql_1 = require("graphql");
 var graphql_relay_1 = require("graphql-relay");
 function default_1(Model, options, isType) {
@@ -28,41 +29,40 @@ function default_1(Model, options, isType) {
                 key = options.map[key] || key;
             }
         }
-        if (!attribute.graphType && !attribute.graphInput) {
-            var _type = typeMapper.toGraphQL(type, Model.sequelize.constructor, isType);
-            memo[key] = {
-                type: _type
-            };
-            if (memo[key].type instanceof graphql_1.GraphQLEnumType) {
-                var typeName = "" + Model.name + key + "EnumType";
-                /*
-                Cache enum types to prevent duplicate type name error
-                when calling attributeFields multiple times on the same model
-                */
-                if (cache[typeName]) {
-                    memo[key].type = cache[typeName];
-                }
-                else {
-                    memo[key].type.name = typeName;
-                    cache[typeName] = memo[key].type;
-                }
-            }
-            if (!options.allowNull) {
-                if ((!options.checkDefaults || typeof attribute.defaultValue === 'undefined') &&
-                    (attribute.allowNull === false || attribute.primaryKey === true)) {
-                    memo[key].type = new graphql_1.GraphQLNonNull(memo[key].type);
-                }
-            }
-            /* should be handled by database instead
-            if (attribute.defaultValue) {
-                memo[key].defaultValue = attribute.defaultValue;
-            }*/
+        var _type;
+        if (attribute.graphType) {
+            _type = attribute.graphType instanceof types_1.CustomGQLType ? attribute.graphType.getType(isType) : attribute.graphType;
         }
         else {
-            memo[key] = {
-                type: isType ? attribute.graphType : attribute.graphInput
-            };
+            _type = typeMapper.toGraphQL(attribute.type, Model.sequelize.constructor, isType);
         }
+        memo[key] = {
+            type: _type
+        };
+        if (memo[key].type instanceof graphql_1.GraphQLEnumType) {
+            var typeName = "" + Model.name + key + "EnumType";
+            /*
+            Cache enum types to prevent duplicate type name error
+            when calling attributeFields multiple times on the same model
+            */
+            if (cache[typeName]) {
+                memo[key].type = cache[typeName];
+            }
+            else {
+                memo[key].type.name = typeName;
+                cache[typeName] = memo[key].type;
+            }
+        }
+        if (!options.allowNull) {
+            if ((!options.checkDefaults || typeof attribute.defaultValue === 'undefined') &&
+                (attribute.allowNull === false || attribute.primaryKey === true)) {
+                memo[key].type = new graphql_1.GraphQLNonNull(memo[key].type);
+            }
+        }
+        /* should be handled by database instead
+        if (attribute.defaultValue) {
+            memo[key].defaultValue = attribute.defaultValue;
+        }*/
         if (options.commentToDescription) {
             if (typeof attribute.comment === 'string') {
                 memo[key].description = attribute.comment;
