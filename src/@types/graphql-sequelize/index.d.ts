@@ -46,7 +46,7 @@ declare module "graphql-sequelize-teselagen" {
         [tableName: string]: GraphQLObjectType | SequelizeConnection;
     }
 
-    export function defaultArgs(model: Model): GraphQLFieldConfigArgumentMap;
+    export function defaultArgs(model: Model, isType: boolean): GraphQLFieldConfigArgumentMap;
 
     export function defaultListArgs(model: Model):
         GraphQLFieldConfigArgumentMap & { limit: any; order: any; where: any; };
@@ -78,7 +78,7 @@ declare module "graphql-sequelize-teselagen" {
     }
 
     export const typeMapper: any;
-    export function attributeFields(model: Model, options?: AttributeFieldsOptions): AttributeFields;
+    export function attributeFields(model: Model, options?: AttributeFieldsOptions, isType?: boolean): AttributeFields;
 
     export type AttributeFields = GraphQLFieldConfigMap<any, any> | GraphQLInputFieldConfigMap;
 

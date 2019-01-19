@@ -14,6 +14,7 @@ var graphql_1 = require("graphql");
 var _ = require("lodash");
 var attributeFields_js_1 = require("./attributeFields.js");
 var graphql_sequelize_teselagen_1 = require("graphql-sequelize-teselagen");
+var typeMapper = require("./typeMapper");
 var sequelizeNodeInterface = graphql_sequelize_teselagen_1.relay.sequelizeNodeInterface, sequelizeConnection = graphql_sequelize_teselagen_1.relay.sequelizeConnection;
 var OperationFactory_1 = require("./OperationFactory");
 var utils_1 = require("./utils");
@@ -25,7 +26,8 @@ function getSchema(sequelize, options) {
     var associationsToModel = {};
     var associationsFromModel = {};
     var cache = {};
-    graphql_sequelize_teselagen_1.typeMapper.mapType(options.typeMap);
+    if (options && options.typeMap)
+        typeMapper.mapType(options.typeMap);
     // Create types map
     var modelTypes = Object.keys(models).reduce(function (types, key) {
         var model = models[key];
@@ -39,7 +41,7 @@ function getSchema(sequelize, options) {
                     globalId: true,
                     commentToDescription: true,
                     cache: cache
-                });
+                }, true);
                 // Lazily load fields
                 return Object.keys(model.associations)
                     .reduce(function (fields, akey) {
@@ -159,7 +161,7 @@ function getSchema(sequelize, options) {
                         globalId: true,
                         commentToDescription: true,
                         cache: cache
-                    });
+                    }, true);
                     // Pass Through model to resolve function
                     _.each(edgeFields, function (edgeField, field) {
                         var oldResolve = edgeField.resolve;

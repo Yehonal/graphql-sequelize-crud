@@ -8,6 +8,7 @@ var camelcase = require("camelcase");
 var graphql_relay_1 = require("graphql-relay");
 var graphql_sequelize_teselagen_1 = require("graphql-sequelize-teselagen");
 var attributeFields_js_1 = require("./attributeFields.js");
+var defaultArgs_js_1 = require("./defaultArgs.js");
 var utils_1 = require("./utils");
 var OperationFactory = /** @class */ (function () {
     function OperationFactory(config) {
@@ -101,7 +102,7 @@ var OperationFactory = /** @class */ (function () {
     OperationFactory.prototype.findRecord = function (_a) {
         var queries = _a.queries, model = _a.model, modelType = _a.modelType;
         var findByIdQueryName = utils_1.queryName(model, 'findById');
-        var queryArgs = graphql_sequelize_teselagen_1.defaultArgs(model);
+        var queryArgs = defaultArgs_js_1.default(model, true);
         utils_1.convertFieldsToGlobalId(model, queryArgs);
         var baseResolve = graphql_sequelize_teselagen_1.resolver(model, {});
         // tslint:disable-next-line:max-func-args

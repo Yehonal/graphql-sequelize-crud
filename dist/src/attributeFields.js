@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var typeMapper = require("graphql-sequelize-teselagen/lib/typeMapper");
+var typeMapper = require("./typeMapper");
 var graphql_1 = require("graphql");
 var graphql_relay_1 = require("graphql-relay");
-function default_1(Model, options) {
+function default_1(Model, options, isType) {
     if (options === void 0) { options = {}; }
     var cache = options.cache || {};
     var result = Object.keys(Model.rawAttributes).reduce(function (memo, key) {
@@ -28,9 +28,10 @@ function default_1(Model, options) {
                 key = options.map[key] || key;
             }
         }
-        if (!attribute.graphType) {
+        if (!attribute.graphType && !attribute.graphInput) {
+            var _type = typeMapper.toGraphQL(type, Model.sequelize.constructor, isType);
             memo[key] = {
-                type: typeMapper.toGraphQL(type, Model.sequelize.constructor)
+                type: _type
             };
             if (memo[key].type instanceof graphql_1.GraphQLEnumType) {
                 var typeName = "" + Model.name + key + "EnumType";
@@ -59,7 +60,7 @@ function default_1(Model, options) {
         }
         else {
             memo[key] = {
-                type: attribute.graphType
+                type: isType ? attribute.graphType : attribute.graphInput
             };
         }
         if (options.commentToDescription) {

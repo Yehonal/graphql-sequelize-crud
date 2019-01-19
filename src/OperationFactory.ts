@@ -17,7 +17,6 @@ import {
     mutationWithClientMutationId
 } from "graphql-relay";
 import {
-    defaultArgs,
     defaultListArgs,
     //attributeFields,
     resolver,
@@ -26,6 +25,7 @@ import {
 } from "graphql-sequelize-teselagen";
 
 import attributeFields from "./attributeFields.js";
+import defaultArgs from "./defaultArgs.js";
 
 import {
     convertFieldsFromGlobalId,
@@ -64,10 +64,10 @@ export class OperationFactory {
         model,
         modelType,
     }: {
-            mutations: Mutations,
-            model: Model,
-            modelType: GraphQLObjectType,
-        }) {
+        mutations: Mutations,
+        model: Model,
+        modelType: GraphQLObjectType,
+    }) {
         const {
             models,
             modelTypes,
@@ -174,13 +174,13 @@ export class OperationFactory {
         model,
         modelType
     }: {
-            queries: Queries;
-            model: Model;
-            modelType: GraphQLObjectType;
-        }) {
+        queries: Queries;
+        model: Model;
+        modelType: GraphQLObjectType;
+    }) {
         const findByIdQueryName = queryName(model, 'findById');
 
-        const queryArgs = defaultArgs(model);
+        const queryArgs = defaultArgs(model, true);
         convertFieldsToGlobalId(model, queryArgs);
 
         const baseResolve = resolver(model, {});
@@ -205,10 +205,10 @@ export class OperationFactory {
         model,
         modelType
     }: {
-            model: Model;
-            modelType: GraphQLObjectType;
-            queries: Queries;
-        }) {
+        model: Model;
+        modelType: GraphQLObjectType;
+        queries: Queries;
+    }) {
         const findAllQueryName = queryName(model, 'findAll');
         const queryArgs = defaultListArgs(model);
 
@@ -236,10 +236,10 @@ export class OperationFactory {
         model,
         modelType,
     }: {
-            mutations: Mutations,
-            model: Model,
-            modelType: GraphQLObjectType,
-        }) {
+        mutations: Mutations,
+        model: Model,
+        modelType: GraphQLObjectType,
+    }) {
         const {
             models,
             modelTypes,
@@ -394,10 +394,10 @@ export class OperationFactory {
         model,
         modelType,
     }: {
-            mutations: Mutations,
-            model: Model,
-            modelType: GraphQLObjectType,
-        }) {
+        mutations: Mutations,
+        model: Model,
+        modelType: GraphQLObjectType,
+    }) {
         const {
             models,
             modelTypes,
@@ -530,10 +530,10 @@ export class OperationFactory {
         model,
         modelType,
     }: {
-            mutations: Mutations,
-            model: Model,
-            modelType: GraphQLObjectType,
-        }) {
+        mutations: Mutations,
+        model: Model,
+        modelType: GraphQLObjectType,
+    }) {
         const {
             cache,
         } = this;
@@ -591,10 +591,10 @@ export class OperationFactory {
         model,
         modelType,
     }: {
-            mutations: Mutations,
-            model: Model,
-            modelType: GraphQLObjectType,
-        }) {
+        mutations: Mutations,
+        model: Model,
+        modelType: GraphQLObjectType,
+    }) {
         const deleteMutationName = mutationName(model, 'deleteOne');
         mutations[deleteMutationName] = mutationWithClientMutationId({
             name: deleteMutationName,

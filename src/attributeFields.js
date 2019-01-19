@@ -1,4 +1,7 @@
-import * as typeMapper from 'graphql-sequelize-teselagen/lib/typeMapper';
+import * as typeMapper from './typeMapper';
+import {
+  CustomGQLType
+} from "./types"
 import {
   GraphQLNonNull,
   GraphQLEnumType
@@ -7,7 +10,7 @@ import {
   globalIdField
 } from 'graphql-relay';
 
-export default function (Model, options = {}) {
+export default function (Model, options = {}, isType) {
   var cache = options.cache || {};
   var result = Object.keys(Model.rawAttributes).reduce(function (memo, key) {
     if (options.exclude) {
@@ -31,9 +34,11 @@ export default function (Model, options = {}) {
       }
     }
 
-    if (!attribute.graphType) {
+    if (!attribute.graphType && !attribute.graphInput) {
+      const _type = typeMapper.toGraphQL(type, Model.sequelize.constructor, isType)
+
       memo[key] = {
-        type: typeMapper.toGraphQL(type, Model.sequelize.constructor)
+        type: _type
       };
 
       if (memo[key].type instanceof GraphQLEnumType) {
@@ -64,7 +69,7 @@ export default function (Model, options = {}) {
       }*/
     } else {
       memo[key] = {
-        type: attribute.graphType 
+        type: isType ? attribute.graphType : attribute.graphInput
       }
     }
 

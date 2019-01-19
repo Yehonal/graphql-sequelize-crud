@@ -18,8 +18,9 @@ import {
     resolver,
     relay,
     Cache,
-    typeMapper
 } from "graphql-sequelize-teselagen";
+
+import * as typeMapper from "./typeMapper"
 
 const {
     sequelizeNodeInterface,
@@ -57,7 +58,8 @@ export function getSchema(sequelize: Sequelize, options?: any) {
     const associationsFromModel: AssociationFromModels = {};
     const cache: Cache = {};
 
-    typeMapper.mapType(options.typeMap);
+    if (options && options.typeMap)
+        typeMapper.mapType(options.typeMap);
 
     // Create types map
     const modelTypes: ModelTypes = Object.keys(models).reduce((types: ModelTypes, key: string) => {
@@ -72,7 +74,7 @@ export function getSchema(sequelize: Sequelize, options?: any) {
                     globalId: true,
                     commentToDescription: true,
                     cache
-                }) as GraphQLFieldConfigMap<any, any>;
+                }, true) as GraphQLFieldConfigMap<any, any>;
                 // Lazily load fields
                 return Object.keys(model.associations)
                     .reduce((fields: GraphQLFieldConfigMap<any, any>, akey: string) => {
@@ -200,7 +202,7 @@ export function getSchema(sequelize: Sequelize, options?: any) {
                         globalId: true,
                         commentToDescription: true,
                         cache
-                    }) as GraphQLFieldConfigMap<any, any>;
+                    }, true) as GraphQLFieldConfigMap<any, any>;
 
                     // Pass Through model to resolve function
                     _.each(edgeFields, (edgeField: GraphQLFieldConfigMap<any, any>, field: string) => {
@@ -236,7 +238,7 @@ export function getSchema(sequelize: Sequelize, options?: any) {
                         total: {
                             type: new GraphQLNonNull(GraphQLInt),
                             description:
-                            `Total count of ${targetType.name} results associated with ${getTableName(model)}.`,
+                                `Total count of ${targetType.name} results associated with ${getTableName(model)}.`,
                             resolve: ({ source }: any) => {
                                 const { accessors } = association;
                                 return source[accessors.count]();
