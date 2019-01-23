@@ -18,7 +18,7 @@ import {
     resolver,
     relay,
     Cache,
-} from "graphql-sequelize-teselagen";
+} from "graphql-sequelize";
 
 import * as typeMapper from "./typeMapper"
 

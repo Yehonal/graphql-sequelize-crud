@@ -92,7 +92,7 @@
   "peerDepedencies": {
     "graphql": ">=0.7.0",
     "graphql-relay": "^0.4.2",
-    "graphql-sequelize-teselagen": "^5.3.7",
+    "graphql-sequelize": "^9.3.3",
     "sequelize": "^3.23.4"
   }
 }

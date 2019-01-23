@@ -1,5 +1,5 @@
 // tslint:disable no-duplicate-imports
-declare module "graphql-sequelize-teselagen" {
+declare module "graphql-sequelize" {
 
     import {
         GraphQLFieldResolver,
@@ -127,6 +127,6 @@ declare module "graphql-sequelize-teselagen" {
 
 }
 
-declare module "graphql-sequelize-teselagen/lib/types/jsonType" {
+declare module "graphql-sequelize/lib/types/jsonType" {
 
 }

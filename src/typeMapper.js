@@ -10,7 +10,7 @@ import {
   CustomGQLType
 } from "./types"
 
-import _jsonType from 'graphql-sequelize-teselagen/lib/types/jsonType';
+import _jsonType from 'graphql-sequelize/lib/types/jsonType';
 
 var _jsonType2 = _interopRequireDefault(_jsonType);
 

@@ -5,7 +5,7 @@ import * as _typeMapper from './typeMapper';
 
 var typeMapper = _interopRequireWildcard(_typeMapper);
 
-import _jsonType from 'graphql-sequelize-teselagen/lib/types/jsonType';
+import _jsonType from 'graphql-sequelize/lib/types/jsonType';
 
 var _jsonType2 = _interopRequireDefault(_jsonType);
 

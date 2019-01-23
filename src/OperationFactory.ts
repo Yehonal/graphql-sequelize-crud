@@ -9,7 +9,7 @@ import {
     GraphQLFieldConfigMap,
     GraphQLFieldConfig,
     GraphQLInputFieldConfigMap,
-    GraphQLFieldResolver,
+    GraphQLFieldResolver
 } from 'graphql';
 import * as _ from 'lodash';
 import * as camelcase from 'camelcase';
@@ -22,7 +22,7 @@ import {
     resolver,
     SequelizeConnection,
     Cache,
-} from "graphql-sequelize-teselagen";
+} from "graphql-sequelize";
 
 import attributeFields from "./attributeFields.js";
 import defaultArgs from "./defaultArgs.js";
