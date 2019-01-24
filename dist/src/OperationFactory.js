@@ -6,7 +6,7 @@ var graphql_1 = require("graphql");
 var _ = require("lodash");
 var camelcase = require("camelcase");
 var graphql_relay_1 = require("graphql-relay");
-var graphql_sequelize_teselagen_1 = require("graphql-sequelize-teselagen");
+var graphql_sequelize_1 = require("graphql-sequelize");
 var attributeFields_js_1 = require("./attributeFields.js");
 var defaultArgs_js_1 = require("./defaultArgs.js");
 var utils_1 = require("./utils");
@@ -50,7 +50,7 @@ var OperationFactory = /** @class */ (function () {
                     description: "The new " + utils_1.getTableName(model) + ", if successfully created.",
                     // tslint:disable-next-line:max-func-args
                     resolve: function (args, arg2, context, info) {
-                        return graphql_sequelize_teselagen_1.resolver(model, {})({}, (_a = {},
+                        return graphql_sequelize_1.resolver(model, {})({}, (_a = {},
                             _a[model.primaryKeyAttribute] = args[model.primaryKeyAttribute],
                             _a), context, info);
                         var _a;
@@ -85,7 +85,7 @@ var OperationFactory = /** @class */ (function () {
                             // tslint:disable-next-line:max-func-args
                             resolve: function (args, arg2, context, info) {
                                 // console.log('Models', Models, Models[toType.name]);
-                                return graphql_sequelize_teselagen_1.resolver(models[toType_1.name], {})({}, { id: args[foreignKey] }, context, info);
+                                return graphql_sequelize_1.resolver(models[toType_1.name], {})({}, { id: args[foreignKey] }, context, info);
                             }
                         };
                     }
@@ -104,7 +104,7 @@ var OperationFactory = /** @class */ (function () {
         var findByIdQueryName = utils_1.queryName(model, 'findById');
         var queryArgs = defaultArgs_js_1.default(model, true);
         utils_1.convertFieldsToGlobalId(model, queryArgs);
-        var baseResolve = graphql_sequelize_teselagen_1.resolver(model, {});
+        var baseResolve = graphql_sequelize_1.resolver(model, {});
         // tslint:disable-next-line:max-func-args
         var resolve = function (source, args, context, info) {
             utils_1.convertFieldsFromGlobalId(model, args);
@@ -122,8 +122,8 @@ var OperationFactory = /** @class */ (function () {
     OperationFactory.prototype.findAll = function (_a) {
         var queries = _a.queries, model = _a.model, modelType = _a.modelType;
         var findAllQueryName = utils_1.queryName(model, 'findAll');
-        var queryArgs = graphql_sequelize_teselagen_1.defaultListArgs(model);
-        var baseResolve = utils_1.createNonNullListResolver(graphql_sequelize_teselagen_1.resolver(model, { list: true }));
+        var queryArgs = graphql_sequelize_1.defaultListArgs(model);
+        var baseResolve = utils_1.createNonNullListResolver(graphql_sequelize_1.resolver(model, { list: true }));
         // tslint:disable-next-line:max-func-args
         var resolve = function (source, args, context, info) {
             if (args.where) {
@@ -186,7 +186,7 @@ var OperationFactory = /** @class */ (function () {
                     description: "The new " + utils_1.getTableName(model) + ", if successfully created.",
                     // tslint:disable-next-line max-func-args
                     resolve: function (args, arg2, context, info) {
-                        return graphql_sequelize_teselagen_1.resolver(model, {})({}, (_a = {},
+                        return graphql_sequelize_1.resolver(model, {})({}, (_a = {},
                             _a[model.primaryKeyAttribute] = args[model.primaryKeyAttribute],
                             _a), context, info);
                         var _a;
@@ -218,7 +218,7 @@ var OperationFactory = /** @class */ (function () {
                             // tslint:disable-next-line max-func-args
                             resolve: function (args, arg2, context, info) {
                                 // console.log('Models', models, models[toType.name]);
-                                return graphql_sequelize_teselagen_1.resolver(models[toType_2.name], {})({}, { id: args[foreignKey] }, context, info);
+                                return graphql_sequelize_1.resolver(models[toType_2.name], {})({}, { id: args[foreignKey] }, context, info);
                             }
                         };
                     }
@@ -303,7 +303,7 @@ var OperationFactory = /** @class */ (function () {
                     description: "The new " + utils_1.getTableName(model) + ", if successfully created.",
                     // tslint:disable-next-line max-func-args
                     resolve: function (args, arg2, context, info) {
-                        return graphql_sequelize_teselagen_1.resolver(model, {})({}, (_a = {},
+                        return graphql_sequelize_1.resolver(model, {})({}, (_a = {},
                             _a[model.primaryKeyAttribute] = args[model.primaryKeyAttribute],
                             _a), context, info);
                         var _a;
@@ -335,7 +335,7 @@ var OperationFactory = /** @class */ (function () {
                             // tslint:disable-next-line:max-func-args
                             resolve: function (args, arg2, context, info) {
                                 // console.log('Models', Models, Models[toType.name]);
-                                return graphql_sequelize_teselagen_1.resolver(models[toType_3.name], {})({}, { id: args[foreignKey] }, context, info);
+                                return graphql_sequelize_1.resolver(models[toType_3.name], {})({}, { id: args[foreignKey] }, context, info);
                             }
                         };
                     }

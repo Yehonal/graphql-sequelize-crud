@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 var _graphql = require('graphql');
 var types_1 = require("./types");
-var jsonType_1 = require("graphql-sequelize-teselagen/lib/types/jsonType");
+var jsonType_1 = require("graphql-sequelize/lib/types/jsonType");
 var _jsonType2 = _interopRequireDefault(jsonType_1.default);
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {

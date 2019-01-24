@@ -13,9 +13,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var graphql_1 = require("graphql");
 var _ = require("lodash");
 var attributeFields_js_1 = require("./attributeFields.js");
-var graphql_sequelize_teselagen_1 = require("graphql-sequelize-teselagen");
+var graphql_sequelize_1 = require("graphql-sequelize");
 var typeMapper = require("./typeMapper");
-var sequelizeNodeInterface = graphql_sequelize_teselagen_1.relay.sequelizeNodeInterface, sequelizeConnection = graphql_sequelize_teselagen_1.relay.sequelizeConnection;
+var sequelizeNodeInterface = graphql_sequelize_1.relay.sequelizeNodeInterface, sequelizeConnection = graphql_sequelize_1.relay.sequelizeConnection;
 var OperationFactory_1 = require("./OperationFactory");
 var utils_1 = require("./utils");
 function getSchema(sequelize, options) {
@@ -52,7 +52,7 @@ function getSchema(sequelize, options) {
                     if (atype === "BelongsTo") {
                         fields[akey] = {
                             type: targetType,
-                            resolve: graphql_sequelize_teselagen_1.resolver(association, {
+                            resolve: graphql_sequelize_1.resolver(association, {
                                 separate: true
                             })
                         };
@@ -229,11 +229,11 @@ function getSchema(sequelize, options) {
         var model = models[key];
         // Custom Queries
         if (model.queries) {
-            _.assign(queries, model.queries(models, modelTypes, graphql_sequelize_teselagen_1.resolver, queries));
+            _.assign(queries, model.queries(models, modelTypes, graphql_sequelize_1.resolver, queries));
         }
         // Custom Mutations
         if (model.mutations) {
-            _.assign(mutations, model.mutations(models, modelTypes, graphql_sequelize_teselagen_1.resolver, mutations));
+            _.assign(mutations, model.mutations(models, modelTypes, graphql_sequelize_1.resolver, mutations));
         }
     });
     // Configure NodeTypeMapper
